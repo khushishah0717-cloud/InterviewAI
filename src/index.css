@@ -1,0 +1,35 @@
+@import "tailwindcss";
+/* 1. Hardware acceleration & smooth touch support */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 2. Continuous 360-degree rotation keyframe */
+@keyframes continuous-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* 3. Ambient pulsing background glow keyframe */
+@keyframes ambient-pulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+.animate-continuous-spin {
+  animation: continuous-spin 6s linear infinite;
+}
+
+.animate-ambient-pulse {
+  animation: ambient-pulse 8s ease-in-out infinite;
+}
