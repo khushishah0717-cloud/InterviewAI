@@ -1,3 +1,5 @@
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -28,7 +30,7 @@ function Question() {
         }
 
         const response = await fetch(
-          "http://localhost:5000/api/question-bank",
+          `${API_URL}/api/question-bank`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

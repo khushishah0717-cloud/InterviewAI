@@ -1,3 +1,5 @@
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 import React, {
   useEffect,
   useRef,
@@ -101,7 +103,7 @@ export default function ActiveInterviewPage() {
         setError("");
 
         const response = await fetch(
-          "http://localhost:5000/api/questions"
+          `${API_URL}/api/questions`
         );
 
         if (!response.ok) {
@@ -450,7 +452,7 @@ export default function ActiveInterviewPage() {
       setAiFeedback("");
 
       const response = await fetch(
-        "http://localhost:5000/api/interview/feedback",
+        `${API_URL}/api/interview/feedback`,
         {
           method: "POST",
           headers: {
@@ -595,7 +597,7 @@ export default function ActiveInterviewPage() {
 
         const response =
           await fetch(
-            "http://localhost:5000/api/interview/submit",
+            `${API_URL}/api/interview/submit`,
             {
               method: "POST",
 

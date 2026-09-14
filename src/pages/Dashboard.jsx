@@ -1,3 +1,4 @@
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 import React, { useEffect, useState } from "react";
 
 function Dashboard() {
@@ -13,7 +14,7 @@ function Dashboard() {
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-          "http://localhost:5000/api/interviews",
+          `${API_URL}/api/interviews`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
