@@ -16,6 +16,7 @@ function SigninPage() {
   const [passwordError, setPasswordError] = useState("");
 
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleClose = () => {
     navigate("/");
@@ -69,11 +70,11 @@ function SigninPage() {
 
   const handleSignin = async (e) => {
     e.preventDefault();
-
     setMessage("");
 
     // Final Email validation check
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     if (!emailRegex.test(email)) {
       setEmailError("Please enter a valid email address.");
       return;
@@ -84,12 +85,19 @@ function SigninPage() {
     const hasLowercase = /[a-z]/.test(password);
     const hasNumber = /[0-9]/.test(password);
 
-    if (password.length < 8 || !hasUppercase || !hasLowercase || !hasNumber) {
+    if (
+      password.length < 8 ||
+      !hasUppercase ||
+      !hasLowercase ||
+      !hasNumber
+    ) {
       setPasswordError(
         "Password must be at least 8 characters and include uppercase, lowercase, and number."
       );
       return;
     }
+
+    setLoading(true);
 
     try {
       const response = await fetch(
@@ -109,29 +117,31 @@ function SigninPage() {
       const data = await response.json();
 
       if (!response.ok) {
+        setLoading(false);
         setMessage(data.message || "Invalid email or password.");
         return;
       }
 
       // Save token
-localStorage.setItem("token", data.token);
+      localStorage.setItem("token", data.token);
 
-// Save user information
-localStorage.setItem(
-  "user",
-  JSON.stringify(data.user)
-);
+      // Save user information
+      localStorage.setItem(
+        "user",
+        JSON.stringify(data.user)
+      );
 
-// Tell Navbar that the user has logged in
-window.dispatchEvent(new Event("authChanged"));
+      // Tell Navbar that the user has logged in
+      window.dispatchEvent(new Event("authChanged"));
 
-setMessage("Login successful!");
+      setMessage("Login successful!");
 
-// Go to home page immediately
-navigate("/");
+      // Go to home page immediately
+      navigate("/");
 
     } catch (error) {
       console.error("Signin error:", error);
+      setLoading(false);
       setMessage("Unable to connect to server.");
     }
   };
@@ -174,11 +184,10 @@ navigate("/");
               placeholder="name@example.com"
               value={email}
               onChange={handleEmailChange}
-              className={`w-full bg-black/50 border rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none transition ${
-                emailError
-                  ? "border-rose-500 focus:border-rose-500"
-                  : "border-slate-700 focus:border-indigo-500"
-              }`}
+              className={`w-full bg-black/50 border rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none transition ${emailError
+                ? "border-rose-500 focus:border-rose-500"
+                : "border-slate-700 focus:border-indigo-500"
+                }`}
               required
             />
 
@@ -202,11 +211,10 @@ navigate("/");
                 placeholder="••••••••"
                 value={password}
                 onChange={handlePasswordChange}
-                className={`w-full bg-black/50 border rounded-xl px-4 py-2.5 pr-12 text-white placeholder-slate-500 focus:outline-none transition ${
-                  passwordError
-                    ? "border-rose-500 focus:border-rose-500"
-                    : "border-slate-700 focus:border-indigo-500"
-                }`}
+                className={`w-full bg-black/50 border rounded-xl px-4 py-2.5 pr-12 text-white placeholder-slate-500 focus:outline-none transition ${passwordError
+                  ? "border-rose-500 focus:border-rose-500"
+                  : "border-slate-700 focus:border-indigo-500"
+                  }`}
                 required
               />
 
@@ -230,11 +238,12 @@ navigate("/");
 
           {/* Sign In Button */}
           <button
-            type="submit"
-            className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 mt-2 rounded-xl transition"
-          >
-            Sign In
-          </button>
+  type="submit"
+  disabled={loading}
+  className="w-full bg-indigo-500 hover:bg-indigo-600 disabled:bg-indigo-500/60 disabled:cursor-not-allowed text-white font-semibold py-3 mt-2 rounded-xl transition"
+>
+  {loading ? "Signing In..." : "Sign In"}
+</button>
 
         </form>
 

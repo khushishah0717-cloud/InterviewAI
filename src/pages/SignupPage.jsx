@@ -18,6 +18,7 @@ function SignupPage() {
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // --------------------------------------------------
   // EMAIL VALIDATION
@@ -140,6 +141,9 @@ function SignupPage() {
       return;
     }
 
+    setLoading(true);
+
+
     try {
       const response = await fetch(
         `${API_URL}/api/auth/signup`,
@@ -162,6 +166,7 @@ function SignupPage() {
 
       // Signup failed
       if (!response.ok) {
+        setLoading(false);
         setMessage(data.message || "Unable to create account.");
         return;
       }
@@ -172,11 +177,10 @@ function SignupPage() {
 
       if (!data.token) {
         console.error("Signup succeeded but no token was returned.");
-
+        setLoading(false);
         setMessage(
           "Account created, but automatic login failed. Please check the backend response."
         );
-
         return;
       }
 
@@ -197,12 +201,13 @@ function SignupPage() {
       // Tell Navbar that authentication state changed
       window.dispatchEvent(new Event("authChanged"));
 
-// Go directly to Home Page
-navigate("/", { replace: true });
+      // Go directly to Home Page
+      navigate("/", { replace: true });
 
     } catch (error) {
       console.error("Signup error:", error);
 
+      setLoading(false);
       setMessage("Unable to connect to server.");
     }
   };
@@ -269,11 +274,10 @@ navigate("/", { replace: true });
               placeholder="name@example.com"
               value={email}
               onChange={handleEmailChange}
-              className={`w-full bg-black/50 border rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none transition ${
-                emailError
-                  ? "border-rose-500 focus:border-rose-500"
-                  : "border-slate-700 focus:border-indigo-500"
-              }`}
+              className={`w-full bg-black/50 border rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none transition ${emailError
+                ? "border-rose-500 focus:border-rose-500"
+                : "border-slate-700 focus:border-indigo-500"
+                }`}
               required
             />
 
@@ -296,11 +300,10 @@ navigate("/", { replace: true });
                 placeholder="••••••••"
                 value={password}
                 onChange={handlePasswordChange}
-                className={`w-full bg-black/50 border rounded-xl px-4 py-2.5 pr-12 text-white placeholder-slate-500 focus:outline-none transition ${
-                  passwordError
-                    ? "border-rose-500 focus:border-rose-500"
-                    : "border-slate-700 focus:border-indigo-500"
-                }`}
+                className={`w-full bg-black/50 border rounded-xl px-4 py-2.5 pr-12 text-white placeholder-slate-500 focus:outline-none transition ${passwordError
+                  ? "border-rose-500 focus:border-rose-500"
+                  : "border-slate-700 focus:border-indigo-500"
+                  }`}
                 required
               />
 
@@ -333,11 +336,10 @@ navigate("/", { replace: true });
                 placeholder="••••••••"
                 value={confirmPassword}
                 onChange={handleConfirmPasswordChange}
-                className={`w-full bg-black/50 border rounded-xl px-4 py-2.5 pr-12 text-white placeholder-slate-500 focus:outline-none transition ${
-                  confirmPasswordError
-                    ? "border-rose-500 focus:border-rose-500"
-                    : "border-slate-700 focus:border-indigo-500"
-                }`}
+                className={`w-full bg-black/50 border rounded-xl px-4 py-2.5 pr-12 text-white placeholder-slate-500 focus:outline-none transition ${confirmPasswordError
+                  ? "border-rose-500 focus:border-rose-500"
+                  : "border-slate-700 focus:border-indigo-500"
+                  }`}
                 required
               />
 
@@ -363,9 +365,10 @@ navigate("/", { replace: true });
           {/* Create Account */}
           <button
             type="submit"
-            className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 mt-2 rounded-xl transition"
+            disabled={loading}
+            className="w-full bg-indigo-500 hover:bg-indigo-600 disabled:bg-indigo-500/60 disabled:cursor-not-allowed text-white font-semibold py-3 mt-2 rounded-xl transition"
           >
-            Create Account
+            {loading ? "Creating Account..." : "Create Account"}
           </button>
         </form>
 
