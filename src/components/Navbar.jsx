@@ -13,6 +13,7 @@ export default function Navbar() {
   const [mobileQuestionsOpen, setMobileQuestionsOpen] = useState(false);
 
   const mobileMenuRef = useRef(null);
+  const mobileMenuButtonRef = useRef(null);
   const profileRef = useRef(null);
   const navbarRef = useRef(null);
 
@@ -47,9 +48,12 @@ export default function Navbar() {
       }
 
       // Close mobile menu
+      // Close mobile menu
       if (
         mobileMenuRef.current &&
-        !mobileMenuRef.current.contains(event.target)
+        !mobileMenuRef.current.contains(event.target) &&
+        mobileMenuButtonRef.current &&
+        !mobileMenuButtonRef.current.contains(event.target)
       ) {
         setMobileMenuOpen(false);
       }
@@ -166,20 +170,18 @@ export default function Navbar() {
                   setProfileMenuOpen(false);
                 });
               }}
-              className={`text-base font-bold flex items-center gap-2 transition-colors ${
-                activeMenu === "practice"
+              className={`text-base font-bold flex items-center gap-2 transition-colors ${activeMenu === "practice"
                   ? "text-[#6366F1]"
                   : "text-slate-200 hover:text-white"
-              }`}
+                }`}
             >
               Practice
 
               <svg
-                className={`w-4 h-4 transition-transform duration-200 ${
-                  activeMenu === "practice"
+                className={`w-4 h-4 transition-transform duration-200 ${activeMenu === "practice"
                     ? "rotate-180 text-[#6366F1]"
                     : "text-slate-500"
-                }`}
+                  }`}
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -217,20 +219,18 @@ export default function Navbar() {
                   setProfileMenuOpen(false);
                 });
               }}
-              className={`text-base font-bold flex items-center gap-2 transition-colors ${
-                activeMenu === "questions"
+              className={`text-base font-bold flex items-center gap-2 transition-colors ${activeMenu === "questions"
                   ? "text-[#10B981]"
                   : "text-slate-200 hover:text-white"
-              }`}
+                }`}
             >
               Questions
 
               <svg
-                className={`w-4 h-4 transition-transform duration-200 ${
-                  activeMenu === "questions"
+                className={`w-4 h-4 transition-transform duration-200 ${activeMenu === "questions"
                     ? "rotate-180 text-[#10B981]"
                     : "text-slate-500"
-                }`}
+                  }`}
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -332,9 +332,8 @@ export default function Navbar() {
                 {/* DOWN ARROW */}
 
                 <svg
-                  className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${
-                    profileMenuOpen ? "rotate-180" : ""
-                  }`}
+                  className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${profileMenuOpen ? "rotate-180" : ""
+                    }`}
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -387,6 +386,7 @@ export default function Navbar() {
           {/* ================= MOBILE MENU BUTTON ================= */}
 
           <button
+            ref={mobileMenuButtonRef}
             type="button"
             onClick={() => {
               setMobileMenuOpen(!mobileMenuOpen);
@@ -394,7 +394,7 @@ export default function Navbar() {
               setActiveMenu(null);
             }}
             className="md:hidden ml-1 w-10 h-10 flex items-center justify-center rounded-lg text-slate-300 hover:text-white hover:bg-[#111827] transition-colors"
-            aria-label="Open menu"
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           >
 
             {mobileMenuOpen ? (
@@ -469,11 +469,10 @@ export default function Navbar() {
                 </span>
 
                 <svg
-                  className={`w-4 h-4 transition-transform ${
-                    mobilePracticeOpen
+                  className={`w-4 h-4 transition-transform ${mobilePracticeOpen
                       ? "rotate-180 text-[#6366F1]"
                       : "text-slate-500"
-                  }`}
+                    }`}
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -629,11 +628,10 @@ export default function Navbar() {
                 </span>
 
                 <svg
-                  className={`w-4 h-4 transition-transform ${
-                    mobileQuestionsOpen
+                  className={`w-4 h-4 transition-transform ${mobileQuestionsOpen
                       ? "rotate-180 text-[#10B981]"
                       : "text-slate-500"
-                  }`}
+                    }`}
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
