@@ -1,16 +1,43 @@
-# React + Vite
+# InterviewAI
+A full-stack interview preparation platform for technical, behavioral, HR, and role-specific interview practice with AI-powered performance feedback.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Features
+- Technical, behavioral, HR, and role-specific interview practice
+- Standard and Rapid Fire interview modes
+- Automatic scoring and question review
+- AI-powered interview performance feedback
+- JWT-based user authentication
+- Interview history and performance dashboard
 
-Currently, two official plugins are available:
+## Technologies Used
+- React.js
+- JavaScript
+- Tailwind CSS
+- Node.js
+- Express.js
+- MongoDB
+- JWT
+- Groq API
+- Vite
+- GitHub
+- Render
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Interview Modes
+InterviewAI provides two practice modes:
+- Standard – Unlimited time for interview practice
+- Rapid Fire – Timed MCQ practice with 5 or 10 questions
 
-## React Compiler
+## AI Feedback
+InterviewAI uses the Groq API to analyze interview performance and provide concise feedback on:
+- Overall performance
+- Strengths
+- Areas for improvement
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Project Structure
+- `src/` – React frontend
+- `backend/` – Node.js and Express backend
+- `public/` – Website assets
+- `backend/server.js` – Backend server and API routes
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Live Demo
+[InterviewAI](https://interviewai-frontend-ih2e.onrender.com)
